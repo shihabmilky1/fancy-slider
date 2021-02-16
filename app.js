@@ -4,6 +4,12 @@ const galleryHeader = document.querySelector('.gallery-header');
 const searchBtn = document.getElementById('search-btn');
 const sliderBtn = document.getElementById('create-slider');
 const sliderContainer = document.getElementById('sliders');
+const alertBox = document.getElementById('alert-box');
+// popup
+const dark = document.getElementById('dark');
+const sun = document.getElementById('sun');
+
+
 // selected image 
 let sliders = [];
 
@@ -22,8 +28,10 @@ const showImages = (images) => {
   images.forEach(image => {
     let div = document.createElement('div');
     div.className = 'col-lg-3 col-md-4 col-xs-6 img-item mb-2';
-    div.innerHTML = ` <img class="img-fluid img-thumbnail" onclick=selectItem(event,"${image.webformatURL}") src="${image.webformatURL}" alt="${image.tags}">`;
-    gallery.appendChild(div)
+    div.innerHTML = ` <div id="images-container">
+    <img id="images" class="img-fluid img-thumbnail" onclick=selectItem(event,"${image.webformatURL}") src="${image.webformatURL}" alt="${image.tags}">
+    </div>`;
+      gallery.appendChild(div)
   })
 
 }
@@ -33,6 +41,7 @@ const getImages = (query) => {
     .then(response => response.json())
     .then(data => showImages(data.hits))
     .catch(err => console.log(err))
+
 }
 
 let slideIndex = 0;
@@ -80,7 +89,6 @@ const createSlider = () => {
     sliderContainer.appendChild(item)
   })
   changeSlide(0)
-  const alertBox = document.getElementById('alert-box');
   alertBox.innerHTML = ``;
 
   if (duration < 0) {
@@ -130,12 +138,39 @@ const changeSlide = (index) => {
 
 searchBtn.addEventListener('click', function () {
   document.querySelector('.main').style.display = 'none';
-  clearInterval(timer);
   const search = document.getElementById('search');
+
+ alertBox.innerHTML =``;
+  clearInterval(timer);
   getImages(search.value)
   sliders.length = 0;
+
 })
 
 sliderBtn.addEventListener('click', function () {
   createSlider()
 })
+//
+document.getElementById("search")
+    .addEventListener("keyup", function(event) {
+    event.preventDefault();
+    if (event.keyCode === 13) {
+        document.getElementById("search-btn").click();
+    }
+});
+dark.addEventListener('click',()=>{
+  document.querySelector('body').style.background = 'black';
+  document.querySelector('body').style.color = 'white';
+  document.querySelector('#dark').style.display = 'none';
+  document.querySelector('#sun').style.display = 'block';
+  
+})
+
+sun.addEventListener('click',()=>{
+  document.querySelector('body').style.background = 'white';
+  document.querySelector('body').style.color = 'black';
+  document.querySelector('#sun').style.display = 'none';
+  document.querySelector('#dark').style.display = 'block';
+})
+
+// const searchInput = document.getElementById('search').value;

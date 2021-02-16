@@ -19,7 +19,7 @@
 }
 
 .added {
-  border: 2px solid #1e1743;
+  border: 2px solid blue;
   border-radius: 5px;
 }
 
@@ -54,7 +54,27 @@ img {
 .main {
   display: none;
 }
-
+#images{
+  width: 100%;
+  height: 100%;
+  transition: all 0.3s ease-out;
+  cursor: pointer;
+}
+#images:hover{
+  transform: scale(1.1);
+}
+#dark ,#sun {
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 75px;
+  margin-top: 25px;
+  position: absolute;
+  right: 0;
+  cursor: pointer;
+}
+#sun{
+  display: none;
+}
 @media (max-width: 767px) {
   .justify-content-around.align-items-center.mt-3.gallery-header.mb-2 {
     flex-direction: column;
