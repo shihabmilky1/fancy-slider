@@ -18,7 +18,13 @@ let sliders = [];
 // Find the name in the url and go to their website
 // to create your own api key
 const KEY = '15674931-a9d714b6e9d654524df198e00&q';
+const getImages = (query) => {
+  fetch(`https://pixabay.com/api/?key=${KEY}=${query}&image_type=photo&pretty=true`)
+    .then(response => response.json())
+    .then(data => showImages(data.hits))
+    .catch(err => console.log(err))
 
+}
 // show images 
 const showImages = (images) => {
   imagesArea.style.display = 'block';
@@ -31,18 +37,14 @@ const showImages = (images) => {
     div.innerHTML = ` <div id="images-container">
     <img id="images" class="img-fluid img-thumbnail" onclick=selectItem(event,"${image.webformatURL}") src="${image.webformatURL}" alt="${image.tags}">
     </div>`;
-      gallery.appendChild(div)
+    gallery.appendChild(div)
+
   })
 
-}
-
-const getImages = (query) => {
-  fetch(`https://pixabay.com/api/?key=${KEY}=${query}&image_type=photo&pretty=true`)
-    .then(response => response.json())
-    .then(data => showImages(data.hits))
-    .catch(err => console.log(err))
 
 }
+
+
 
 let slideIndex = 0;
 const selectItem = (event, img) => {
@@ -159,18 +161,19 @@ document.getElementById("search")
     }
 });
 dark.addEventListener('click',()=>{
-  document.querySelector('body').style.background = 'black';
-  document.querySelector('body').style.color = 'white';
-  document.querySelector('#dark').style.display = 'none';
-  document.querySelector('#sun').style.display = 'block';
-  
+  darkMode('body','#dark','#sun','black','white');
 })
-
 sun.addEventListener('click',()=>{
-  document.querySelector('body').style.background = 'white';
-  document.querySelector('body').style.color = 'black';
-  document.querySelector('#sun').style.display = 'none';
-  document.querySelector('#dark').style.display = 'block';
+  darkMode('body','#sun','#dark','white','black');
 })
-
-// const searchInput = document.getElementById('search').value;
+const darkMode = (className,idName,anotherIdName,background,color) => {
+    document.querySelector(className).style.background = background;
+  document.querySelector(className).style.color = color;
+  document.querySelector(idName).style.display = 'none';
+  document.querySelector(anotherIdName).style.display = 'block';
+}
+const spinnerToggle = () => {
+  const spinner = document.getElementById('spinner');
+    spinner.classList.toggle('d-none');
+  
+};
